@@ -5,12 +5,61 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+   
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+   
   </head>
-
-  <body>
+<body>
+  <header class="shadow-sm" style="background:rgb(255,226,199); position: fixed; width:100%; z-index:10;">
+      <nav class="navbar navbar-expand-sm navbar-dark py-3">
+        <div class="container-fluid">
+          <a class="navbar" href="/">
+              <%= image_tag ('11172.png'), size:"140x70",class:"rounded-circle logo" %>
+          </a>
+      <!--会員用のヘッダー-->
+          <% if user_signed_in? %>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav ml-auto">
+              <li class="mr-1"><%= link_to '新規投稿', new_post_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to 'マイページ', user_path(current_user),class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to '会員一覧', users_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to '投稿一覧', posts_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to 'ログアウト', destroy_user_session_path, method: :delete,class: 'nav-link scale', style: "font-size: 1rem; color:brown;" %></li>
+           </ul>
+          </div>
+        <!--管理人用のヘッダー　-->
+          <% elsif admin_signed_in? %>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+              <li class="mr-1"><%= link_to '会員一覧', admin_users_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to '投稿一覧', admin_posts_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to 'ジャンル一覧', admin_genres_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to 'ログアウト', destroy_admin_session_path, method: :delete,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+            </ul>
+          </div>
+          <% else %>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+              <li class="mr-1"><%= link_to '新規登録', new_user_registration_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+              <li class="mr-1"><%= link_to 'ログイン', new_user_session_path,class: 'nav-link scale', style: "font-size: 1rem; color:brown;"  %></li>
+            </ul>
+          </div>
+          <% end %>
+        </div>
+      </nav>
+   </header>
+   <div class="pb-5" style="background: rgba(255,240,86,.2); padding-top:120px; min-height:100vh;">
     <%= yield %>
   </body>
 </html>
